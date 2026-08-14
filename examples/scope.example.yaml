@@ -1,0 +1,8 @@
+# Authorized testing scope. ONLY list assets a bug-bounty program (or written
+# authorization) explicitly permits you to test. exclude always wins.
+include:
+  - "*.example.com"
+  - "api.example.org"
+exclude:
+  - "blog.example.com"
+  - "status.example.com"

@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: Insecure Petstore (demo target)
+  version: "1.0.0"
+  description: >
+    A deliberately insecure sample used to exercise APSec Tester checks.
+    It is a VALID OpenAPI document with poor security posture. Do NOT use as a
+    real API template.
+servers:
+  - url: http://api.petstore.example.com/v1   # HTTP -> APSEC-TLS-001
+components:
+  securitySchemes:
+    basicAuth:                                 # Basic -> APSEC-AUTH-003
+      type: http
+      scheme: basic
+    apiKeyQuery:                               # key in query -> APSEC-AUTH-003
+      type: apiKey
+      in: query
+      name: api_key
+# No top-level `security:` -> APSEC-AUTH-001 (medium)
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List pets
+      responses:
+        "200":
+          description: OK
+    post:                                      # unauthenticated write -> APSEC-AUTH-002
+      operationId: createPet
+      summary: Create a pet
+      security: []
+      responses:
+        "201":
+          description: Created
+  /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:                                    # unauthenticated write -> APSEC-AUTH-002
+      operationId: deletePet
+      summary: Delete a pet
+      responses:
+        "204":
+          description: No Content

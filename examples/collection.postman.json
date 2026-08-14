@@ -1,0 +1,28 @@
+{
+  "info": {
+    "name": "Demo API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.demo.example.com" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/health" } }
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List users",
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/users" } }
+        },
+        {
+          "name": "Create user",
+          "request": { "method": "POST", "url": { "raw": "{{baseUrl}}/users" } }
+        }
+      ]
+    }
+  ]
+}

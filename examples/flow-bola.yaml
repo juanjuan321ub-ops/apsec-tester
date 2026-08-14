@@ -1,0 +1,30 @@
+# Abuse-case flow: detect Broken Object Level Authorization (BOLA/IDOR).
+# alice creates a document; the engine then replays the "read" step as bob
+# (other identity) and with no auth. If either succeeds -> vulnerability.
+base_url: http://127.0.0.1:8100
+identities:
+  alice:
+    headers:
+      Authorization: "Bearer alice-token"
+  bob:
+    headers:
+      Authorization: "Bearer bob-token"
+flow:
+  name: Access a document by id
+  steps:
+    - id: create
+      identity: alice
+      method: POST
+      path: /documents
+      json: { title: "Alice private note" }
+      capture:
+        doc_id: "$.id"
+      expect:
+        status: 201
+    - id: read
+      identity: alice
+      method: GET
+      path: /documents/{doc_id}
+      expect:
+        status: 200
+      abuse: [bola, unauth]

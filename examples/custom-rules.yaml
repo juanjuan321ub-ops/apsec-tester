@@ -1,0 +1,20 @@
+# Example custom rules for `apsec probe --rules examples/custom-rules.yaml`
+rules:
+  - id: CUSTOM-HEALTH-001
+    name: Health endpoint should not expose build version
+    severity: medium
+    request:
+      method: GET
+      path: /health
+    expect:
+      status: 200
+      header_absent: [x-build-version]
+
+  - id: CUSTOM-REQID-001
+    name: Responses should carry a correlation id
+    severity: low
+    request:
+      method: GET
+      path: /
+    expect:
+      header_present: [x-request-id]

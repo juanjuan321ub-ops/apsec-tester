@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: Secure Petstore (demo target)
+  version: "1.0.0"
+servers:
+  - url: https://api.petstore.example.com/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List pets
+      responses:
+        "200":
+          description: OK
+    post:
+      operationId: createPet
+      summary: Create a pet
+      responses:
+        "201":
+          description: Created
