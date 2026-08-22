@@ -55,4 +55,29 @@ Permitir a un QA de Seguridad analizar rápidamente APIs (REST, GraphQL) que le 
 - Incluir ejemplos de uso en README.
 - Preparar integración con CI/CD.
 
+## Estado actual (2026-08-22)
+
+Ya construido y con 72 tests pasando. Comandos CLI: `recon`, `crawl`, `scan`,
+`probe`, `flow`, `fuzz`, `chaos`, `triage`, `report`, `version`.
+
+- **Entrada:** OpenAPI 3.x (JSON/YAML) y Postman v2.1. (Falta: archivo de
+  endpoints manual como formato dedicado.)
+- **Checks estáticos (`scan`):** auth (AUTH-001/002/003), TLS-001,
+  data_exposure (DATA-001), inventory (INV-002/003/004), ssrf_surface (SSRF-001).
+- **Checks live (`probe`):** headers (HDR-001), CORS-001, rate-limit (RATE-001),
+  info-leak (INFO-001) + reglas YAML propias (`--rules`).
+- **Autorización/lógica (`flow`):** BOLA-001, BFLA-001, AUTH-010 (unauth),
+  MASS-001.
+- **Inyección (`fuzz`):** SQLi error-based (SQLI-001), XSS reflejado (XSS-001).
+  **Pendiente:** command injection y blind/time-based (aún no implementados
+  pese a estar en "Funcionalidades Obligatorias").
+- **Resiliencia (`chaos`):** stack-trace/info-leak bajo fault (CHAOS-001/002).
+- **Reportes:** console, JSON, Markdown, HTML self-contained, y bounty-ready.
+- **Seguridad por diseño:** todo scope-gated (`--scope`), `safe_load`, sin fetch
+  de `$ref` remotos, sin proxy ambiental.
+- **Triage offline (`triage`, `ai/`):** prioriza findings por valor de bounty,
+  nada sale de la máquina.
+
+Extra opcional de navegador: `pip install "apsec-tester[browser]" && playwright install chromium` (para `crawl`).
+
 Mantén este contexto siempre.

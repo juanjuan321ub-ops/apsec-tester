@@ -11,6 +11,13 @@ from apsec.scanner.checks.authentication import (
     WeakSecuritySchemeCheck,
 )
 from apsec.scanner.checks.transport import HttpsServerCheck
+from apsec.scanner.checks.data_exposure import SensitiveDataInResponse
+from apsec.scanner.checks.ssrf_surface import SsrfProneParameter
+from apsec.scanner.checks.inventory import (
+    DeprecatedEndpointExposed,
+    MissingApiDescription,
+    MixedApiVersions,
+)
 
 # Order is cosmetic; findings are sorted by severity in the reporter.
 ALL_CHECKS: list[type[Check]] = [
@@ -18,6 +25,11 @@ ALL_CHECKS: list[type[Check]] = [
     OperationSecurityCheck,
     WeakSecuritySchemeCheck,
     HttpsServerCheck,
+    SensitiveDataInResponse,
+    SsrfProneParameter,
+    DeprecatedEndpointExposed,
+    MixedApiVersions,
+    MissingApiDescription,
 ]
 
 __all__ = ["Check", "ALL_CHECKS"]
