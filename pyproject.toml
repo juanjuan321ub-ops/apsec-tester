@@ -9,7 +9,7 @@ description = "Security-first API security scanner for OpenAPI 3.x and live targ
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Juan" }]
+authors = [{ name = "Juan Ortiz", email = "juanjuan321ub@gmail.com" }]
 keywords = ["security", "api", "openapi", "qa", "pentest", "owasp"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -38,11 +38,12 @@ dev = [
     "pytest-cov>=5.0",
     "ruff>=0.5",
     "mypy>=1.10",
+    "types-PyYAML>=6.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/apsec-tester"
-Issues = "https://github.com/your-org/apsec-tester/issues"
+Homepage = "https://github.com/juanjuan321ub-ops/apsec-tester"
+Issues = "https://github.com/juanjuan321ub-ops/apsec-tester/issues"
 
 [project.scripts]
 apsec = "apsec.cli:app"
@@ -66,8 +67,12 @@ select = ["E", "F", "I", "B", "UP", "S"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101"]
+# typer declara las opciones como llamadas en el default por diseño -> B008 es falso positivo
+"src/apsec/cli.py" = ["B008"]
 
 [tool.mypy]
 python_version = "3.11"
+# los decoradores de typer no estan tipados; no es deuda del proyecto
+disallow_untyped_decorators = false
 strict = true
 files = ["src/apsec"]

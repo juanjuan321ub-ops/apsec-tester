@@ -24,3 +24,9 @@ reports/
 .DS_Store
 .idea/
 .vscode/
+
+# Artefactos de herramientas externas (generados, no versionar)
+graphify-out/
+
+# Prototipo de referencia rescatado de secqa-auditor (ver legacy-prototype/README-LEGACY.md)
+legacy-prototype/

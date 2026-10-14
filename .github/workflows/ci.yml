@@ -1,0 +1,59 @@
+# ============================================================
+# APSec Tester — CI de calidad
+#
+#   • lint    → ruff (incluye reglas de seguridad "S" / bandit)
+#   • types   → mypy strict sobre src/apsec
+#   • tests   → pytest sobre la matriz 3.11 / 3.12
+#
+# Nada de esto toca la red ni escanea targets reales:
+# la suite es 100% offline (httpx mockeado).
+# ============================================================
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint + types + tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install (dev extras)
+        run: pip install -e ".[dev]"
+
+      # --- Gate real: la suite tiene que pasar ---
+      - name: Tests
+        run: pytest -q --cov=apsec --cov-report=term-missing
+
+      # --- Informativos: el repo todavia no pasa limpio (96 ruff / 9 mypy al 2026-08-28).
+      #     Cuando el conteo llegue a 0, quitar los continue-on-error y quedan como gate. ---
+      - name: Lint (ruff)
+        run: ruff check src tests
+        continue-on-error: true
+
+      - name: Type check (mypy strict)
+        run: mypy
+        continue-on-error: true

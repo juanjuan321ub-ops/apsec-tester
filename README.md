@@ -29,6 +29,21 @@
 
 </div>
 
+## See it run
+
+`apsec scan` against the bundled insecure OpenAPI spec — **3 HIGH, 3 MEDIUM**, every
+finding with its location, a concrete fix and the OWASP API Top 10 reference:
+
+<img alt="apsec scan reporting 3 HIGH and 3 MEDIUM findings on an insecure OpenAPI spec" src="docs/demo-scan.svg" width="100%" />
+
+```bash
+apsec scan examples/petstore-insecure.yaml   # reproduce it yourself
+```
+
+<sub>Not a mockup — verbatim terminal output of the command above.</sub>
+
+---
+
 APSec Tester audits an API two ways: it statically analyzes an OpenAPI 3.x
 contract, and it actively probes a running target over HTTP. Findings are mapped
 to the [OWASP API Security Top 10 (2023)](https://owasp.org/API-Security/editions/2023/en/0x11-t10/),
